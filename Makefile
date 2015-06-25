@@ -1,6 +1,6 @@
 BOOT2DOCKER_VERSION = 1.7.0
 DOCKER_COMPOSE_VERSION = 1.3.1
-MACHINE_NAME = docker-machine-vagrant
+MACHINE_NAME = b2d-vagrant
 
 all: clean build test
 
