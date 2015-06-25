@@ -1,4 +1,5 @@
 BOOT2DOCKER_VERSION = 1.7.0
+DOCKER_COMPOSE_VERSION = 1.3.1
 MACHINE_NAME = docker-machine-vagrant
 
 all: clean build test
@@ -7,8 +8,10 @@ build: boot2docker.iso
 	# Create and alter a B2B VM.
 	docker-machine create --driver=virtualbox $(MACHINE_NAME)
 	# Copy custom 64bit rsync.
-	docker-machine ssh $(MACHINE_NAME) -- sudo mkdir -p /var/lib/boot2docker/bin
-	cat bin/rsync | docker-machine ssh $(MACHINE_NAME) -- sudo tee /var/lib/boot2docker/bin/rsync > /dev/null
+	docker-machine ssh $(MACHINE_NAME) 'sudo mkdir -p /var/lib/boot2docker/bin'
+	cat bin/rsync | docker-machine ssh $(MACHINE_NAME) 'sudo tee /var/lib/boot2docker/bin/rsync > /dev/null'
+	# Download docker-compose to permanent storage.
+	docker-machine ssh $(MACHINE_NAME) 'sudo curl -L https://github.com/docker/compose/releases/download/$(DOCKER_COMPOSE_VERSION)/docker-compose-`uname -s`-`uname -m` -o /var/lib/boot2docker/bin/docker-compose'
 	# Run provisioning script.
 	docker-machine ssh $(MACHINE_NAME) < scripts/provision.sh
 	# Restart VM to apply settings.
