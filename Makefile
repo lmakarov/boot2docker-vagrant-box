@@ -7,11 +7,10 @@ all: clean build test
 build: boot2docker.iso
 	# Create and alter a B2B VM.
 	docker-machine create --driver=virtualbox $(MACHINE_NAME)
-	# Copy custom 64bit rsync.
-	docker-machine ssh $(MACHINE_NAME) 'sudo mkdir -p /var/lib/boot2docker/bin'
-	cat bin/rsync | docker-machine ssh $(MACHINE_NAME) 'sudo tee /var/lib/boot2docker/bin/rsync > /dev/null'
 	# Download docker-compose to permanent storage.
-	docker-machine ssh $(MACHINE_NAME) 'sudo curl -L https://github.com/docker/compose/releases/download/$(DOCKER_COMPOSE_VERSION)/docker-compose-`uname -s`-`uname -m` -o /var/lib/boot2docker/bin/docker-compose'
+	docker-machine ssh $(MACHINE_NAME) 'sudo curl -L https://github.com/docker/compose/releases/download/$(DOCKER_COMPOSE_VERSION)/docker-compose-`uname -s`-`uname -m` --create-dirs -o /var/lib/boot2docker/bin/docker-compose'
+	# Copy custom 64bit rsync.
+	cat bin/rsync | docker-machine ssh $(MACHINE_NAME) 'sudo tee /var/lib/boot2docker/bin/rsync > /dev/null'
 	# Run provisioning script.
 	docker-machine ssh $(MACHINE_NAME) < scripts/provision.sh
 	# Restart VM to apply settings.
