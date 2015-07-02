@@ -2,6 +2,9 @@
 tce-load -w bash.tcz rsync.tcz
 sudo cp -R /mnt/sda1/tmp/tce/optional /var/lib/boot2docker/tce
 
+# Create bin directory for permanent storage of custom binaries
+sudo mkdir -p /var/lib/boot2docker/bin
+
 # bootsync.sh
 cat <<'SCRIPT' | sudo tee /var/lib/boot2docker/bootsync.sh
 # vagrant key
@@ -11,10 +14,12 @@ echo "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4
 # install extra packages
 sudo su -c "tce-load -i /var/lib/boot2docker/tce/*.tcz" docker
 
+# symlink custom binaries
+sudo chmod -R +x /var/lib/boot2docker/bin
+for i in /var/lib/boot2docker/bin/*; do
+	sudo ln -sf $i /usr/local/bin/$(basename $i)
+done
 
-# docker-compose
-sudo cp -f /var/lib/boot2docker/bin/docker-compose /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
 SCRIPT
 sudo chmod +x /var/lib/boot2docker/bootsync.sh
 
