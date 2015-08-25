@@ -1,8 +1,9 @@
 BOOT2DOCKER_VERSION = 1.8.1
 DOCKER_COMPOSE_VERSION = 1.4.0
+DOCKER_MACHINE_VERSION = 0.4.1
 MACHINE_NAME = b2d-vagrant
 
-all: clean build test
+all: docker-machine clean build test
 
 build: boot2docker.iso
 	# Create and alter a B2B VM.
@@ -19,6 +20,11 @@ build: boot2docker.iso
 	vagrant package --base $(MACHINE_NAME) --vagrantfile Vagrantfile --include boot2docker.iso --output boot2docker_virtualbox.box
 	# Remove VM
 	docker-machine rm $(MACHINE_NAME)
+
+docker-machine:
+	# Install the specific docker-machine version.		
+	sudo curl -fsL "https://github.com/docker/machine/releases/download/v$(DOCKER_MACHINE_VERSION)/docker-machine_darwin-amd64" -o /usr/local/bin/docker-machine
+	sudo chmod +x /usr/local/bin/docker-machine
 
 boot2docker.iso:
 	curl -L -o boot2docker.iso https://github.com/boot2docker/boot2docker/releases/download/v$(BOOT2DOCKER_VERSION)/boot2docker.iso
