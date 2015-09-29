@@ -12,7 +12,4 @@ Vagrant.configure("2") do |config|
 
   # Expose the Docker port (no TLS)
   config.vm.network "forwarded_port", guest: 2375, host: 2375, host_ip: "127.0.0.1", auto_correct: true, id: "docker"
-  # Create a private network for accessing VM without NAT
-  config.vm.network "private_network", ip: "192.168.10.10", id: "default-network"
-
 end
