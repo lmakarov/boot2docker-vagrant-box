@@ -28,13 +28,13 @@
 	vagrant ssh -c 'docker ps'
 }
 
-DOCKER_TARGET_VERSION=1.8.1
+DOCKER_TARGET_VERSION=1.8.2
 @test "Docker is version DOCKER_TARGET_VERSION=${DOCKER_TARGET_VERSION}" {
 	DOCKER_VERSION=$(vagrant ssh -c "docker version --format '{{.Server.Version}}'" -- -n -T)
 	[ "${DOCKER_VERSION}" == "${DOCKER_TARGET_VERSION}" ]
 }
 
-COMPOSE_TARGET_VERSION=1.4.0
+COMPOSE_TARGET_VERSION=1.4.2
 @test "Docker Compose is version COMPOSE_TARGET_VERSION=${COMPOSE_TARGET_VERSION}" {
 	COMPOSE_VERSION=$(vagrant ssh -c "docker-compose version --short" -- -n -T)
 	[ "${COMPOSE_VERSION}" == "${COMPOSE_TARGET_VERSION}" ]
