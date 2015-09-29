@@ -21,6 +21,9 @@ for i in /var/lib/boot2docker/bin/*; do
 	sudo ln -sf $i /usr/local/bin/$(basename $i)
 done
 
+# This only works for interactive sessions, so using symlinking above instead...
+# Add /var/lib/boot2docker/bin to PATH
+#echo 'export PATH=/var/lib/boot2docker/bin:$PATH' | sudo tee -a /etc/profile
 SCRIPT
 sudo chmod +x /var/lib/boot2docker/bootsync.sh
 
