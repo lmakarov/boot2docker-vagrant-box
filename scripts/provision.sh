@@ -17,6 +17,7 @@ sudo su -c "tce-load -i /var/lib/boot2docker/tce/*.tcz" docker
 # symlink custom binaries
 sudo chmod -R +x /var/lib/boot2docker/bin
 for i in /var/lib/boot2docker/bin/*; do
+	sudo chmod +x $i
 	sudo ln -sf $i /usr/local/bin/$(basename $i)
 done
 
@@ -24,5 +25,5 @@ SCRIPT
 sudo chmod +x /var/lib/boot2docker/bootsync.sh
 
 # Disable DOCKER_TLS
-sudo  sed -i 's/DOCKER_TLS=.*/DOCKER_TLS=no/' /var/lib/boot2docker/profile
-sudo  sed -i 's/2376/2375/' /var/lib/boot2docker/profile
+sudo sed -i 's/DOCKER_TLS=.*/DOCKER_TLS=no/' /var/lib/boot2docker/profile
+sudo sed -i 's/2376/2375/' /var/lib/boot2docker/profile

@@ -7,7 +7,7 @@
 	# Ensure the VM is stopped
 	run vagrant destroy -f
 	run vagrant box remove boot2docker-virtualbox-test
-	cp vagrantfile.orig Vagrantfile
+	cp Vagrantfile.template Vagrantfile
 	vagrant up
 	[ $( vagrant status | grep 'running' | wc -l ) -ge 1 ]
 }
@@ -40,10 +40,6 @@ COMPOSE_TARGET_VERSION=1.4.0
 	[ "${COMPOSE_VERSION}" == "${COMPOSE_TARGET_VERSION}" ]
 }
 
-@test "My bootlocal.sh script, should have been run at boot" {
-	[ $(vagrant ssh -c 'grep OK /tmp/token-boot-local | wc -l' -- -n -T) -eq 1 ]
-}
-
 @test "We can reboot the VM properly" {
 	vagrant reload
 	vagrant ssh -c 'echo OK'
@@ -57,21 +53,8 @@ COMPOSE_TARGET_VERSION=1.4.0
 	[ $(vagrant ssh -c 'ps aux | grep rpc.statd | wc -l' -- -n -T) -ge 1 ]
 }
 
-@test "We shave a default synced folder thru vboxsf instead of NFS" {
-	mount_point=$(vagrant ssh -c 'mount' | grep vboxsf | awk '{ print $3 }')
-	[ $(vagrant ssh -c "ls -l ${mount_point}/Vagrantfile | wc -l" -- -n -T) -ge 1 ]
-}
-
-@test "We shave a NFS synced folder if B2D_NFS_SYNC is set (admin password required, will fail on Windows)" {
-	export B2D_NFS_SYNC=1
-	vagrant reload
-	mount_point=$(vagrant ssh -c 'mount' | grep nfs | awk '{ print $3 }')
-	[ $(vagrant ssh -c "ls -l $mount_point/Vagrantfile | wc -l" -- -n -T) -ge 1 ]
-	unset B2D_NFS_SYNC
-}
-
 @test "We can share folder thru rsync" {
-	sed 's/#SYNC_TOKEN/config.vm.synced_folder ".", "\/vagrant", type: "rsync"/g' vagrantfile.orig > Vagrantfile
+	sed 's/#SYNC_TOKEN/config.vm.synced_folder ".", "\/vagrant", type: "rsync"/g' Vagrantfile.template > Vagrantfile
 	vagrant reload
 	[ $( vagrant status | grep 'running' | wc -l ) -ge 1 ]
 	vagrant ssh -c "ls -l /vagrant/Vagrantfile"

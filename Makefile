@@ -22,12 +22,12 @@ build: boot2docker.iso
 	docker-machine rm $(MACHINE_NAME)
 
 docker-machine:
-	# Install the specific docker-machine version.		
-	sudo curl -fsL "https://github.com/docker/machine/releases/download/v$(DOCKER_MACHINE_VERSION)/docker-machine_darwin-amd64" -o /usr/local/bin/docker-machine
+	# Install the specific docker-machine version (hardcoded for use on Mac!)
+	sudo curl -L "https://github.com/docker/machine/releases/download/v$(DOCKER_MACHINE_VERSION)/docker-machine_darwin-amd64" -o /usr/local/bin/docker-machine
 	sudo chmod +x /usr/local/bin/docker-machine
 
 boot2docker.iso:
-	curl -L -o boot2docker.iso https://github.com/boot2docker/boot2docker/releases/download/v$(BOOT2DOCKER_VERSION)/boot2docker.iso
+	curl -L https://github.com/boot2docker/boot2docker/releases/download/v$(BOOT2DOCKER_VERSION)/boot2docker.iso -o boot2docker.iso
 
 test:
 	@cd tests/virtualbox; bats --tap *.bats
