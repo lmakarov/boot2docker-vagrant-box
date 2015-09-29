@@ -30,3 +30,7 @@ sudo chmod +x /var/lib/boot2docker/bootsync.sh
 # Disable DOCKER_TLS
 sudo sed -i 's/DOCKER_TLS=.*/DOCKER_TLS=no/' /var/lib/boot2docker/profile
 sudo sed -i 's/2376/2375/' /var/lib/boot2docker/profile
+
+# Append Docker IP and DNS configuration to EXTRA_ARGS
+sudo sed -i "/EXTRA_ARGS='/a --dns 172.17.42.1 --dns 8.8.8.8" /var/lib/boot2docker/profile
+sudo sed -i "/EXTRA_ARGS='/a --bip=172.17.42.1/24" /var/lib/boot2docker/profile
