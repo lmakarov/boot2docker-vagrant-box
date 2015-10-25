@@ -1,5 +1,5 @@
 DOCKER_MACHINE_VERSION = 0.4.1
-BOOT2DOCKER_VERSION = 1.8.2
+BOOT2DOCKER_VERSION = 1.8.3
 DOCKER_COMPOSE_VERSION = 1.4.2
 MACHINE_NAME = b2d-vagrant
 
@@ -30,7 +30,10 @@ boot2docker.iso:
 	curl -L https://github.com/boot2docker/boot2docker/releases/download/v$(BOOT2DOCKER_VERSION)/boot2docker.iso -o boot2docker.iso
 
 test:
-	@cd tests/virtualbox; bats --tap *.bats
+	@cd tests/virtualbox; \
+	DOCKER_TARGET_VERSION=$(BOOT2DOCKER_VERSION) \
+	COMPOSE_TARGET_VERSION=$(DOCKER_COMPOSE_VERSION) \
+	bats --tap *.bats
 
 clean:
 	rm -rf *.iso *.box

@@ -2,4 +2,6 @@
 .vagrant/
 *.box
 *.iso
-tests/*/Vagrantfile
+tests
+!tests/boot2docker_vagrant_virtualbox.bats
+!tests/Vagrantfile.template
