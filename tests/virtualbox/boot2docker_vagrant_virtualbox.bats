@@ -16,6 +16,12 @@
 	vagrant ssh -c 'echo OK'
 }
 
+@test "We can sftp to the VM" {
+	vagrant ssh-config > ssh_config
+	host=$(grep 'Host ' ssh_config | cut -d ' ' -f 2)
+	echo 'pwd' | sftp -F ssh_config $host
+}
+
 @test "Default ssh user has sudoers rights" {
 	[ "$(vagrant ssh -c 'sudo whoami' -- -n -T)" == "root" ]
 }
