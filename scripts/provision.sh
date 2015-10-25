@@ -4,6 +4,7 @@
 set -e
 
 # Download extra packages to permanent storage
+echo 'http://distro.ibiblio.org/tinycorelinux/' | sudo tee /opt/tcemirror
 tce-load -w bash.tcz rsync.tcz
 sudo cp -R /mnt/sda1/tmp/tce/optional /var/lib/boot2docker/tce
 
