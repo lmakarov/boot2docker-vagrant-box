@@ -4,10 +4,9 @@
 # And the basebox has already been added to vagrant
 
 @test "We can vagrant up the VM with basic settings" {
-	# Ensure the VM is stopped
+	# Ensure we start clean
 	run vagrant destroy -f
-	run vagrant box remove boot2docker-virtualbox-test
-	cp Vagrantfile.template Vagrantfile
+	cp -f Vagrantfile.template Vagrantfile
 	vagrant up
 	[ $( vagrant status | grep 'running' | wc -l ) -ge 1 ]
 }
@@ -54,11 +53,11 @@
 }
 
 @test "The NFS client is started inside the VM" {
-	[ $(vagrant ssh -c 'ps aux | grep rpc.statd | wc -l' -- -n -T) -ge 1 ]
+	[ $( vagrant ssh -c 'ps aux | grep rpc.statd | wc -l' -- -n -T ) -ge 4 ]
 }
 
 @test "We can share folder thru rsync" {
-	sed 's/#SYNC_TOKEN/config.vm.synced_folder ".", "\/vagrant", type: "rsync"/g' Vagrantfile.template > Vagrantfile
+	sed 's/#SYNC_TOKEN/config.vm.synced_folder ".", "\/vagrant", type: "rsync"/g' Vagrantfile.template | tee Vagrantfile
 	vagrant reload
 	[ $( vagrant status | grep 'running' | wc -l ) -ge 1 ]
 	vagrant ssh -c "ls -l /vagrant/Vagrantfile"
@@ -70,5 +69,4 @@
 
 @test "I can destroy and clean the VM" {
 	vagrant destroy -f
-	vagrant box remove boot2docker-virtualbox-test
 }
