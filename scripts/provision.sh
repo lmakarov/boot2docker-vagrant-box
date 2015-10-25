@@ -1,3 +1,8 @@
+#!/bin/sh
+
+# Fail on errors
+set -e
+
 # Download extra packages to permanent storage
 tce-load -w bash.tcz rsync.tcz
 sudo cp -R /mnt/sda1/tmp/tce/optional /var/lib/boot2docker/tce
