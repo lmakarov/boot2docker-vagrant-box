@@ -7,7 +7,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "boot2docker-virtualbox-test"
   config.vm.box_url = "file://../../boot2docker_virtualbox.box"
-  
+ 
+  # Disable vagrant-gatling-rsync autostart if installed
+  if Vagrant.has_plugin?("vagrant-gatling-rsync")
+    config.gatling.rsync_on_startup = false
+  end
+
   #SYNC_TOKEN
 
 end
