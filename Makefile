@@ -1,6 +1,6 @@
-DOCKER_MACHINE_VERSION = 0.4.1
-BOOT2DOCKER_VERSION = 1.8.3
-DOCKER_COMPOSE_VERSION = 1.4.2
+DOCKER_MACHINE_VERSION = 0.5.0
+BOOT2DOCKER_VERSION = 1.9.0
+DOCKER_COMPOSE_VERSION = 1.5.0
 MACHINE_NAME = b2d-vagrant
 
 all: docker-machine clean build test
@@ -23,8 +23,10 @@ build: boot2docker.iso
 
 docker-machine:
 	# Install the specific docker-machine version (hardcoded for use on Mac!)
-	sudo curl -L "https://github.com/docker/machine/releases/download/v$(DOCKER_MACHINE_VERSION)/docker-machine_darwin-amd64" -o /usr/local/bin/docker-machine
-	sudo chmod +x /usr/local/bin/docker-machine
+	curl -L https://github.com/docker/machine/releases/download/v$(DOCKER_MACHINE_VERSION)/docker-machine_darwin-amd64.zip >machine.zip && \
+	unzip machine.zip && \
+	rm machine.zip && \
+	mv -f docker-machine* /usr/local/bin
 
 boot2docker.iso:
 	curl -L https://github.com/boot2docker/boot2docker/releases/download/v$(BOOT2DOCKER_VERSION)/boot2docker.iso -o boot2docker.iso
