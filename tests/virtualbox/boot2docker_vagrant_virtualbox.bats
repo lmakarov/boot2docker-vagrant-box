@@ -34,8 +34,8 @@
 }
 
 @test "Docker is version DOCKER_TARGET_VERSION=${DOCKER_TARGET_VERSION}" {
-	DOCKER_VERSION=$(vagrant ssh -c "docker version --format '{{.Server.Version}}'" -- -n -T)
-	[ "${DOCKER_VERSION}" == "${DOCKER_TARGET_VERSION}" ]
+	docker_version=$(vagrant ssh -c "docker version --format '{{.Server.Version}}'" -- -n -T)
+	[ "${docker_version}" == "${DOCKER_TARGET_VERSION}" ]
 }
 
 @test "Docker Compose is version COMPOSE_TARGET_VERSION=${COMPOSE_TARGET_VERSION}" {
