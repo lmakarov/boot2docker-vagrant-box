@@ -34,6 +34,11 @@
 	vagrant ssh -c 'docker ps'
 }
 
+@test "Docker is using overlay storage driver" {
+	storage_driver=$(vagrant ssh -c 'docker info' -- -n -T | grep 'Storage Driver' | awk '{ print $3 }')
+	[ "${storage_driver}" == "overlay" ]
+}
+
 @test "Docker is version DOCKER_TARGET_VERSION=${DOCKER_TARGET_VERSION}" {
 	docker_version=$(vagrant ssh -c "docker version --format '{{.Server.Version}}'" -- -n -T)
 	[ "${docker_version}" == "${DOCKER_TARGET_VERSION}" ]
