@@ -10,6 +10,9 @@ sudo cp -R /mnt/sda1/tmp/tce/optional /var/lib/boot2docker/tce
 
 # Create bin directory for permanent storage of custom binaries
 sudo mkdir -p /var/lib/boot2docker/bin
+# Create permanent storage directories for host files
+sudo mkdir -p /mnt/sda1/Users
+sudo mkdir -p /mnt/sda1/cygdrive
 
 # bootsync.sh
 cat <<'SCRIPT' | sudo tee /var/lib/boot2docker/bootsync.sh
@@ -33,6 +36,10 @@ done
 
 # Start nfs client utilities
 sudo /usr/local/etc/init.d/nfs-client start
+
+# Symlink permanent storage directories for host files
+sudo ln -s /mnt/sda1/Users /Users
+sudo ln -s /mnt/sda1/cygdrive /cygdrive
 SCRIPT
 sudo chmod +x /var/lib/boot2docker/bootsync.sh
 
