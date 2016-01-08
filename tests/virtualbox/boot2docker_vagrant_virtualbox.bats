@@ -6,6 +6,7 @@
 @test "We can vagrant up the VM with basic settings" {
 	# Ensure we start clean
 	run vagrant destroy -f
+	run vagrant box remove boot2docker-virtualbox-test
 	cp -f Vagrantfile.template Vagrantfile
 	vagrant up
 	[ $( vagrant status | grep 'running' | wc -l ) -ge 1 ]
@@ -29,7 +30,7 @@
 	vagrant ssh -c 'which docker'
 }
 
-@test "Docker is working inside the remote VM " {
+@test "Docker is working inside the remote VM" {
 	vagrant ssh -c 'docker ps'
 }
 
@@ -48,11 +49,11 @@
 	vagrant ssh -c 'echo OK'
 }
 
-@test "Rsync is installed inside the b2d" {
+@test "rsync is installed inside the VM" {
 	vagrant ssh -c "which rsync"
 }
 
-@test "The NFS client is started inside the VM" {
+@test "NFS client is started inside the VM" {
 	[ $( vagrant ssh -c 'ps aux | grep rpc.statd | wc -l' -- -n -T ) -ge 4 ]
 }
 
@@ -63,10 +64,10 @@
 	vagrant ssh -c "ls -l /vagrant/Vagrantfile"
 }
 
-@test "I can stop the VM" {
+@test "We can stop the VM" {
 	vagrant halt
 }
 
-@test "I can destroy and clean the VM" {
+@test "We can destroy the VM" {
 	vagrant destroy -f
 }
