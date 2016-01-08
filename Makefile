@@ -3,11 +3,11 @@ BOOT2DOCKER_VERSION = 1.9.1
 DOCKER_COMPOSE_VERSION = 1.5.2
 MACHINE_NAME = b2d-vagrant
 
-all: docker-machine clean build test
+all: docker-machine clean boot2docker.iso build test
 
-build: boot2docker.iso
+build:
 	# Create and alter a B2B VM.
-	docker-machine create --driver=virtualbox $(MACHINE_NAME)
+	docker-machine create --driver=virtualbox --virtualbox-boot2docker-url=file://`pwd`/boot2docker.iso $(MACHINE_NAME)
 	# Download docker-compose to permanent storage.
 	docker-machine ssh $(MACHINE_NAME) 'sudo curl -L https://github.com/docker/compose/releases/download/$(DOCKER_COMPOSE_VERSION)/docker-compose-`uname -s`-`uname -m` --create-dirs -o /var/lib/boot2docker/bin/docker-compose'
 	# Run provisioning script.
@@ -19,7 +19,7 @@ build: boot2docker.iso
 	# Export VM into a Vagrant base box.
 	vagrant package --base $(MACHINE_NAME) --vagrantfile Vagrantfile --include boot2docker.iso --output boot2docker_virtualbox.box
 	# Remove VM
-	docker-machine rm $(MACHINE_NAME)
+	docker-machine rm -f $(MACHINE_NAME)
 
 docker-machine:
 	# Install the specific docker-machine version (hardcoded for use on Mac!)
