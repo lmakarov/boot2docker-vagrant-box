@@ -51,8 +51,5 @@ sudo sed -i 's/2376/2375/' /var/lib/boot2docker/profile
 sudo sed -i "/EXTRA_ARGS='/a --dns 172.17.42.1 --dns 8.8.8.8" /var/lib/boot2docker/profile
 sudo sed -i "/EXTRA_ARGS='/a --bip=172.17.42.1/24" /var/lib/boot2docker/profile
 
-# User overlay storage driver
-sudo sed -i "/DOCKER_STORAGE=/c DOCKER_STORAGE=overlay" /var/lib/boot2docker/profile
-
 # Enable SFTP
 echo "Subsystem sftp /usr/local/lib/openssh/sftp-server" | sudo tee -a /var/lib/boot2docker/ssh/sshd_config
