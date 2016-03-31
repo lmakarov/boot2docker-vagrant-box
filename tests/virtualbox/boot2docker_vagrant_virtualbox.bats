@@ -34,9 +34,18 @@
 	vagrant ssh -c 'docker ps'
 }
 
-@test "Docker is version DOCKER_TARGET_VERSION=${DOCKER_TARGET_VERSION}" {
+@test "Docker engine is version DOCKER_TARGET_VERSION=${DOCKER_TARGET_VERSION}" {
 	docker_version=$(vagrant ssh -c "docker version --format '{{.Server.Version}}'" -- -n -T)
 	[ "${docker_version}" == "${DOCKER_TARGET_VERSION}" ]
+}
+
+@test "Can access docker engine from host (without TLS)" {
+	curl -sSL "https://get.docker.com/builds/$(uname -s)/$(uname -m)/docker-$DOCKER_CLI_VERSION" -o ./docker
+	chmod +x ./docker
+	# Figure out the mapped docker port (in case port was remapped due to collision)
+	docker_port=$(vagrant port --guest 2375)
+	./docker -H 127.0.0.1:$docker_port ps
+	rm -rf ./docker
 }
 
 @test "Docker Compose is version COMPOSE_TARGET_VERSION=${COMPOSE_TARGET_VERSION}" {

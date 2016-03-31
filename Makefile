@@ -32,6 +32,7 @@ boot2docker.iso:
 test:
 	@cd tests/virtualbox; \
 	DOCKER_TARGET_VERSION=$(BOOT2DOCKER_VERSION) \
+	DOCKER_CLI_VERSION=$(DOCKER_CLI_VERSION) \
 	COMPOSE_TARGET_VERSION=$(DOCKER_COMPOSE_VERSION) \
 	bats --tap *.bats
 
