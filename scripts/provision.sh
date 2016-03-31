@@ -43,9 +43,9 @@ sudo ln -s /mnt/sda1/cygdrive /cygdrive
 SCRIPT
 sudo chmod +x /var/lib/boot2docker/bootsync.sh
 
-# Disable DOCKER_TLS
-sudo sed -i 's/DOCKER_TLS=.*/DOCKER_TLS=no/' /var/lib/boot2docker/profile
-sudo sed -i 's/2376/2375/' /var/lib/boot2docker/profile
+# Disable DOCKER_TLS and make sure docker listens on 2375 and 2376 ports
+sudo sed -i '/DOCKER_TLS=/c DOCKER_TLS=no' /var/lib/boot2docker/profile
+sudo sed -i '/DOCKER_HOST=/c DOCKER_HOST="-H tcp://0.0.0.0:2375 -H tcp://0.0.0.0:2376"' /var/lib/boot2docker/profile
 
 # Append Docker IP and DNS configuration to EXTRA_ARGS
 sudo sed -i "/EXTRA_ARGS='/a --dns 172.17.42.1 --dns 8.8.8.8" /var/lib/boot2docker/profile

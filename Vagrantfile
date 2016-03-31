@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
     v.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', 0, '--device', 0, '--type', 'dvddrive', '--medium', File.expand_path("../boot2docker.iso", __FILE__)]
   end
 
-  # Expose the Docker port (no TLS)
+  # Expose the Docker ports
   config.vm.network "forwarded_port", guest: 2375, host: 2375, host_ip: "127.0.0.1", auto_correct: true, id: "docker"
+  config.vm.network "forwarded_port", guest: 2376, host: 2376, host_ip: "127.0.0.1", auto_correct: true, id: "docker-tls"
 end
