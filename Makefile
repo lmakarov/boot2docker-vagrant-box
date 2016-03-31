@@ -15,7 +15,7 @@ build:
 	# Restart VM to apply settings.
 	docker-machine restart $(MACHINE_NAME)
 	# Detach boot2docker.iso from the VM.
-	VBoxManage storageattach $(MACHINE_NAME) --storagectl SATA --port 0 --medium emptydrive
+	VBoxManage storageattach $(MACHINE_NAME) --storagectl SATA --port 0 --device 0 --medium emptydrive --forceunmount
 	# Export VM into a Vagrant base box.
 	vagrant package --base $(MACHINE_NAME) --vagrantfile Vagrantfile --include boot2docker.iso --output boot2docker_virtualbox.box
 	# Remove VM
