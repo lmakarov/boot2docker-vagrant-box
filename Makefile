@@ -22,8 +22,8 @@ build:
 	docker-machine rm -f $(MACHINE_NAME)
 
 docker-machine:
-	# Install the specific docker-machine version (hardcoded for use on Mac!)
-	curl -L https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine_darwin-amd64 -o /usr/local/bin/docker-machine && \
+	# Install the specific docker-machine version
+	curl -L https://github.com/docker/machine/releases/download/v$(DOCKER_MACHINE_VERSION)/docker-machine-`uname -s`-`uname -m` >/usr/local/bin/docker-machine && \
 	chmod +x /usr/local/bin/docker-machine
 
 boot2docker.iso:
