@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.11.0 (2016-04-14)
+
+- Built with docker-machine 0.7.0
+- Versions: boot2docker/docker 1.11.0, docker-compose 1.7.0
+
 
 ## v1.10.3 (2016-03-31)
 
