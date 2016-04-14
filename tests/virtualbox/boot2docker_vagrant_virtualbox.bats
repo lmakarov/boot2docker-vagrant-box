@@ -40,12 +40,12 @@
 }
 
 @test "Can access docker engine from host (without TLS)" {
-	curl -sSL "https://get.docker.com/builds/$(uname -s)/$(uname -m)/docker-$DOCKER_CLI_VERSION" -o ./docker
-	chmod +x ./docker
+	curl -sSL -O "https://get.docker.com/builds/$(uname -s)/$(uname -m)/docker-$DOCKER_CLI_VERSION.tgz"
+	tar xvf docker-$DOCKER_CLI_VERSION.tgz
 	# Figure out the mapped docker port (in case port was remapped due to collision)
 	docker_port=$(vagrant port --guest 2375)
-	./docker -H 127.0.0.1:$docker_port ps
-	rm -rf ./docker
+	docker/docker -H 127.0.0.1:$docker_port ps
+	rm -rf docker*
 }
 
 @test "Docker Compose is version COMPOSE_TARGET_VERSION=${COMPOSE_TARGET_VERSION}" {
