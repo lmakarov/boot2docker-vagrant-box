@@ -1,7 +1,8 @@
 .DS_Store
-.vagrant/
+.vagrant
 *.box
 *.iso
-tests
-!tests/boot2docker_vagrant_virtualbox.bats
-!tests/Vagrantfile.template
+/tests
+!/tests/boot2docker_vagrant_virtualbox.bats
+!/tests/Vagrantfile.template
+/docker-machine
