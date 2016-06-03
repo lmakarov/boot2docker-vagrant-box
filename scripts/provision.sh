@@ -50,3 +50,6 @@ sudo sed -i '/DOCKER_HOST=/c DOCKER_HOST="-H tcp://0.0.0.0:2375 -H tcp://0.0.0.0
 # Append Docker IP and DNS configuration to EXTRA_ARGS
 sudo sed -i "/EXTRA_ARGS='/a --dns 172.17.42.1 --dns 8.8.8.8" /var/lib/boot2docker/profile
 sudo sed -i "/EXTRA_ARGS='/a --bip=172.17.42.1/24" /var/lib/boot2docker/profile
+
+# Enable SFTP		
+echo "Subsystem sftp /usr/local/lib/openssh/sftp-server" | sudo tee -a /var/lib/boot2docker/ssh/sshd_config
