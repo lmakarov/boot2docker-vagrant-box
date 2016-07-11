@@ -40,7 +40,7 @@
 }
 
 @test "Can access docker engine from host (without TLS)" {
-	curl -sSL -O "https://get.docker.com/builds/$(uname -s)/$(uname -m)/docker-$DOCKER_CLI_VERSION.tgz"
+	curl -sSL -O "https://test.docker.com/builds/$(uname -s)/$(uname -m)/docker-$DOCKER_CLI_VERSION.tgz"
 	tar xvf docker-$DOCKER_CLI_VERSION.tgz
 	# Figure out the mapped docker port (in case port was remapped due to collision)
 	docker_port=$(vagrant port --guest 2375)
